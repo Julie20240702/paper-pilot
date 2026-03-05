@@ -13,7 +13,10 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: /^http:\/\/localhost:\d+$/,
+    origin: [
+      /^http:\/\/localhost:\d+$/,
+      /\.vercel\.app$/,
+    ],
   })
 );
 app.use(express.json({ limit: '2mb' }));
