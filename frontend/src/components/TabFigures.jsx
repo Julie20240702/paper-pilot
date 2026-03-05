@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://paper-pilot-backend-dppl.onrender.com';
+
 function PageCitation({ page, onJumpToPage }) {
   if (!Number.isInteger(page)) return null;
 
@@ -59,7 +62,7 @@ function TabFigures({ analysis, isAnalyzing, onJumpToPage }) {
     }));
 
     try {
-      const response = await fetch('http://localhost:3001/api/translate', {
+      const response = await fetch(`${API_BASE_URL}/api/translate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),

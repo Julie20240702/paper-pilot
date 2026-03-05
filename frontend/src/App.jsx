@@ -5,6 +5,9 @@ import ResizableDivider from './components/ResizableDivider';
 import UploadZone from './components/UploadZone';
 import './App.css';
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'https://paper-pilot-backend-dppl.onrender.com';
+
 function App() {
   const [pdfFile, setPdfFile] = useState(null);
   const [pdfText, setPdfText] = useState('');
@@ -48,7 +51,7 @@ function App() {
       });
 
       const requestPromise = (async () => {
-        const response = await fetch('http://localhost:3001/api/analyze', {
+        const response = await fetch(`${API_BASE_URL}/api/analyze`, {
           method: 'POST',
           body: formData,
           signal: controller.signal,
@@ -117,7 +120,7 @@ function App() {
     setTranslationResult(null);
 
     try {
-      const response = await fetch('http://localhost:3001/api/translate', {
+      const response = await fetch(`${API_BASE_URL}/api/translate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
