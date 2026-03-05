@@ -1,0 +1,28 @@
+Phase 1: Project Setup (Completed)
+- Step 1.1 — Initialize frontend: Completed
+- Step 1.2 — Install frontend dependencies: Completed
+- Step 1.3 — Configure Tailwind: Completed
+- Step 1.4 — Configure Vite for PDF.js worker: Completed
+- Step 1.5 — Initialize backend folder and dependencies: Completed
+- Step 1.6 — Create .env and .env.example, confirm .gitignore: Completed
+- Step 1.7 — Create project structure and placeholder files: Completed
+
+Phase 2: Core Frontend Components (In Progress)
+- Step 2.1 — Build UploadZone component: In Progress
+
+Pending Fixes (Defer to Phase 9)
+1. PDF除了第一页，其他页初始显示太大，需要调整默认scale。
+2. 翻页之后缩放有卡顿，需要优化。
+3.论点跳转只能跳转到page 没有具体片段标注
+4.识图不准确 有的识别不出来 有的无中生有
+5.翻译功能只在arguments里有，最好每个板块都可以一键翻译
+6.翻译功能偶尔显示错误，需要Phase 9排查原因。
+
+Latest Fixes (Done)
+1. 复杂问题报错：chat 路由超时改为 120 秒，Gemini 调用 timeout 改为 120 秒，catch 中打印完整 error 并返回具体错误信息。Completed
+2. 长文章只提取前两页：提取后发送给 AI 的字符上限改为 50000。Completed
+3. 中文文章生成英文：analyze prompt 已加入中文论文全字段中文输出规则。Completed
+4. AI 回复有 `**` 符号：chat prompt 已加入严格纯文本输出规则（禁用 markdown/asterisks/bold/headers）。Completed
+5. 翻译腔重：translate prompt 已改为自然流畅中文、意译为主，术语保留英文并括号中文说明。Completed
+6. Overview 显示 N/A：analyze prompt 已加入“优先合理推断，确无信息才用 null”。Completed
+7. 复杂问题无法回答：chat prompt 已加入深度学术阅读助手能力要求（文献综述/批判分析/方法评价/研究意义）。Completed
