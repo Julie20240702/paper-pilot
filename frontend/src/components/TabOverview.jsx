@@ -5,13 +5,19 @@ const API_BASE_URL =
 
 const CIRCLED_NUMBERS = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩'];
 
-function PageCitation({ page, onJumpToPage }) {
+function PageCitation({ page, quote, onJumpToPage, onHighlightArgument }) {
   if (!Number.isInteger(page)) return null;
 
   return (
     <button
       type="button"
-      onClick={() => onJumpToPage?.(page)}
+      onClick={() => {
+        if (typeof onHighlightArgument === 'function') {
+          onHighlightArgument(page, quote);
+          return;
+        }
+        onJumpToPage?.(page);
+      }}
       className="text-xs font-mono text-pink-500 hover:text-pink-600 underline bg-transparent border-none"
     >
       [Page {page}]
@@ -51,7 +57,7 @@ function TranslationBlock({ text, isLoading, error }) {
   return <p className="mt-2 text-sm text-[#2C2420] leading-relaxed">{text}</p>;
 }
 
-function TabOverview({ analysis, isAnalyzing, onJumpToPage }) {
+function TabOverview({ analysis, isAnalyzing, onJumpToPage, onHighlightArgument }) {
   const [translations, setTranslations] = useState({});
 
   const translateByKey = async (key, sourceText) => {
@@ -136,7 +142,12 @@ function TabOverview({ analysis, isAnalyzing, onJumpToPage }) {
                   />
                 </div>
                 <div className="mb-1">
-                  <PageCitation page={item?.page} onJumpToPage={onJumpToPage} />
+                  <PageCitation
+                    page={item?.page}
+                    quote={item?.text}
+                    onJumpToPage={onJumpToPage}
+                    onHighlightArgument={onHighlightArgument}
+                  />
                 </div>
                 <TranslationBlock
                   text={translated.text}

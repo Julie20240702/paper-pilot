@@ -31,7 +31,7 @@ const BUILT_IN_PROMPTS = [
   },
 ];
 
-function TabChat({ chatHistory, setChatHistory, paperText, onJumpToPage }) {
+function TabChat({ chatHistory, setChatHistory, paperText, onJumpToPage, onHighlightArgument }) {
   const [input, setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [isComposing, setIsComposing] = useState(false);
@@ -115,7 +115,9 @@ function TabChat({ chatHistory, setChatHistory, paperText, onJumpToPage }) {
                     : 'bg-gray-100 border-[#E8E2DB] text-[#2C2420] text-sm whitespace-pre-wrap'
                 }`}
               >
-                {isUser ? message?.content : renderWithCitations(message?.content, onJumpToPage)}
+                {isUser
+                  ? message?.content
+                  : renderWithCitations(message?.content, onJumpToPage, onHighlightArgument)}
               </div>
             </div>
           );

@@ -31,7 +31,8 @@ The JSON must follow this exact structure:
     {
       "text": "string - the argument in English. For technical terms, you MUST use format: English Term（中文解释）",
       "explanation": "string - one-sentence explanation in Chinese (中文，必须使用简体中文)",
-      "page": number
+      "page": number,
+      "quote": "string - REQUIRED field: exact original sentence from the paper that supports this argument"
     }
   ],
   "figures": [
@@ -48,6 +49,11 @@ Rules:
 - include 3-6 arguments
 - include all notable figures and tables
 - if a field cannot be determined, use null
+- REQUIRED field for every argument: quote
+- for each argument, quote must be an exact sentence copied from the paper text (no paraphrasing)
+- if the paper is English, quote must be English; if Chinese, quote must be Chinese
+- Example argument item:
+  {"text":"...","explanation":"...","page":2,"quote":"exact sentence copied from paper"}
 - For every technical term or concept, you MUST format it exactly like this: English Term（中文解释）. For example: MyoElastic-AeroDynamic principle（肌弹性气动原理）. Apply this to ALL fields: overview fields AND argument text fields. This is mandatory.
 - Order ALL lists logically from most important to least important. Each point must be a complete, standalone sentence that someone who has NOT read the paper can understand. Start each conclusion with the key finding, not background context. Arguments should flow from foundational claims to specific findings.
 - return ONLY the JSON, nothing else
@@ -199,6 +205,12 @@ router.post('/', (req, res) => {
         }
       }
 
+      console.log('[analyze] raw model has quote key:', /"quote"\s*:/.test(assistantText || ''));
+      console.log(
+        '[analyze] raw model response preview:',
+        String(assistantText || '').slice(0, 2000)
+      );
+
       let parsedData;
       try {
         parsedData = parseModelJson(assistantText);
@@ -212,6 +224,7 @@ router.post('/', (req, res) => {
       }
 
       if (timedOut || res.headersSent) return;
+      console.log('arguments with quotes:', JSON.stringify(parsedData?.arguments || [], null, 2));
       console.log(`[analyze] success in ${Date.now() - startedAt}ms`);
       return res.status(200).json({
         success: true,

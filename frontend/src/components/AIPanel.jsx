@@ -18,6 +18,7 @@ function AIPanel({
   analysisError,
   isAnalyzing,
   onJumpToPage,
+  onHighlightArgument,
   chatHistory,
   setChatHistory,
   paperText,
@@ -110,11 +111,21 @@ function AIPanel({
           ) : null}
 
           {activeTab === 'overview' ? (
-            <TabOverview analysis={analysis} isAnalyzing={isAnalyzing} onJumpToPage={onJumpToPage} />
+            <TabOverview
+              analysis={analysis}
+              isAnalyzing={isAnalyzing}
+              onJumpToPage={onJumpToPage}
+              onHighlightArgument={onHighlightArgument}
+            />
           ) : null}
 
           {activeTab === 'arguments' ? (
-            <TabArguments analysis={analysis} isAnalyzing={isAnalyzing} onJumpToPage={onJumpToPage} />
+            <TabArguments
+              analysis={analysis}
+              isAnalyzing={isAnalyzing}
+              onJumpToPage={onJumpToPage}
+              onHighlightArgument={onHighlightArgument}
+            />
           ) : null}
 
           {activeTab === 'figures' ? (
@@ -127,6 +138,7 @@ function AIPanel({
               setChatHistory={setChatHistory}
               paperText={paperText}
               onJumpToPage={onJumpToPage}
+              onHighlightArgument={onHighlightArgument}
             />
           ) : null}
 

@@ -74,6 +74,7 @@ function App() {
         throw new Error('Analysis failed. You can still use chat.');
       }
 
+      console.log('analysis data arguments:', JSON.stringify(result.data?.arguments, null, 2));
       setAnalysis(result.data || null);
       setPdfText(result.paperText || JSON.stringify(result.data || {}));
       setAnalysisError('');
@@ -109,6 +110,15 @@ function App() {
       return;
     }
     setCurrentPage(page);
+  };
+
+  const handleHighlightArgument = (page, quote) => {
+    console.log('handleHighlightArgument called', pdfViewerRef.current);
+    if (pdfViewerRef.current?.highlightText) {
+      pdfViewerRef.current.highlightText(page, quote);
+      return;
+    }
+    handleJumpToPage(page);
   };
 
   const handleTranslateRequest = async (selectedText) => {
@@ -187,6 +197,7 @@ function App() {
                 analysisError={analysisError}
                 isAnalyzing={isAnalyzing}
                 onJumpToPage={handleJumpToPage}
+                onHighlightArgument={handleHighlightArgument}
                 chatHistory={chatHistory}
                 setChatHistory={setChatHistory}
                 paperText={pdfText}
